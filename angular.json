@@ -1,0 +1,127 @@
+{
+  "version": 1,
+  "projects": {
+    "output-binding": {
+      "projectType": "application",
+      "root": "apps/output-binding",
+      "sourceRoot": "apps/output-binding/src",
+      "prefix": "output-binding",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/output-binding",
+            "index": "apps/output-binding/src/index.html",
+            "main": "apps/output-binding/src/main.ts",
+            "polyfills": "apps/output-binding/src/polyfills.ts",
+            "tsConfig": "apps/output-binding/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/output-binding/src/favicon.ico",
+              "apps/output-binding/src/assets"
+            ],
+            "styles": ["apps/output-binding/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "apps/output-binding/src/environments/environment.ts",
+                  "with": "apps/output-binding/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "output-binding:build:production"
+            },
+            "development": {
+              "browserTarget": "output-binding:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "output-binding:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/output-binding/src/**/*.ts",
+              "apps/output-binding/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/output-binding"],
+          "options": {
+            "jestConfig": "apps/output-binding/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "output-binding-e2e": {
+      "root": "apps/output-binding-e2e",
+      "sourceRoot": "apps/output-binding-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/output-binding-e2e/cypress.json",
+            "devServerTarget": "output-binding:serve:development"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "output-binding:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/output-binding-e2e/**/*.{js,ts}"]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": ["output-binding"]
+    }
+  }
+}
